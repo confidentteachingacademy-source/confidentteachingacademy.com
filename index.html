@@ -647,7 +647,27 @@ function handleSignup2() {
 }
 
 function saveToMailchimp(name, email) {
-  console.log('New signup:', name, email);
+  const formData = new FormData();
+  formData.append('name', name);
+  formData.append('email', email);
+
+  fetch('https://formspree.io/f/xbdegdnv', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
+  })
+  .then(res => {
+    if (res.ok) {
+      console.log('Signup successful:', name, email);
+    } else {
+      console.log('Signup error:', res.status);
+    }
+  })
+  .catch(err => {
+    console.log('Formspree error:', err);
+  });
 }
 </script>
 </body>
